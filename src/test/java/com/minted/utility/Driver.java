@@ -73,9 +73,14 @@ public class Driver {
                     driverPool.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
                     break;
                 case "chrome_test":
+//                    ChromeOptions options = new ChromeOptions();
+//                    options.setBinary("/Applications/Google_Chrome_for_Testing.app");
+//                    options.addExtensions(new File("extensions/dist1.crx"));
+//                    driverPool.set(new ChromeDriver(options));
+//                    driverPool.get().manage().window().maximize();
+//                    driverPool.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
                     ChromeOptions options = new ChromeOptions();
-                    options.setBinary("/Applications/Google_Chrome_for_Testing.app");
-                    options.addExtensions(new File("extensions/Kodif_Copilot_1.2.53.0.crx"));
+                    options.addExtensions(new File("extensions/dist1.crx"));
                     driverPool.set(new ChromeDriver(options));
                     driverPool.get().manage().window().maximize();
                     driverPool.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));

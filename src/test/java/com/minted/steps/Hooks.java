@@ -24,7 +24,7 @@ public class Hooks {
     public void setUp(){
         Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         Driver.getDriver().manage().window().maximize();
-        Driver.getDriver().get(ConfigurationReader.getProperty("zendeskUrl"));
+        Driver.getDriver().get(ConfigurationReader.getProperty("salesForceUrl"));
 
 
     }
