@@ -355,7 +355,7 @@ public class TrustStepDef {
                 boolean isDisplayed = (Boolean) executor.executeScript("return arguments[0].style.display !== 'none'", supportTeamResponse);
                 Assert.assertTrue("Support Team Response is not displayed", isDisplayed);
             }
-        }*/
+        }
 
     }
 
