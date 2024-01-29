@@ -97,6 +97,9 @@ public class TrustPage {
     @FindBy(xpath = "//button[text()='More']")
     public WebElement moreBtn;
 
+    @FindBy(xpath = "//button[text()='Something else']")
+    public WebElement somethingElseBtn;
+
 
     //@FindBy(xpath = "//button[contains(text(),'Other')]")
     //@FindBy(xpath = "//button[normalize-space()='Other']")
