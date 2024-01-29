@@ -134,7 +134,6 @@ public class TrustStepDef {
         assertTrue("***\n\n\nDefault message is not present after refreshing the chat interface\n\n\n***", trustPage.defaultMsg2.isDisplayed());
     }
 
-    /*
     @When("the user records the time the question was sent")
     public void theUserRecordsTheTimeTheQuestionWasSent() {
         // Record the current time when the question is sent
