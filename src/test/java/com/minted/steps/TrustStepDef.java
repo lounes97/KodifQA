@@ -4,27 +4,19 @@ import com.minted.pages.TrustPage;
 import com.minted.utility.BrowserUtils;
 import com.minted.utility.Driver;
 
-import com.mysql.cj.CoreSession;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Copy;
 import org.openqa.selenium.*;
 import org.openqa.selenium.JavascriptExecutor;
 
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.awt.*;
-import java.awt.datatransfer.StringSelection;
-
-import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 import static com.minted.utility.BrowserUtils.*;
 import static org.junit.Assert.*;
@@ -36,34 +28,28 @@ public class TrustStepDef {
 
     TrustPage trustPage = new TrustPage();
 
-    @Given("the user is on the TrustWallet chat interface")
-    public void theUserIsOnTheTrustWalletChatInterface() {
-
+    @Given("the user is on the TrustWallet chat interface and the user clicks on the <Something Else> button")
+    public void the_user_is_on_the_trust_wallet_chat_interface_and_the_user_clicks_on_the_something_else_button() {
         Driver.getDriver().switchTo().frame("kodif-chat-widget");
-        waitForVisibility(trustPage.trustSearchBox, 20);
-        trustPage.trustSearchBox.sendKeys("What is wallet?");
-        trustPage.submitBtn.click();
-
+        trustPage.somethingElseBtn.click();
     }
 
     @When("the user asks a question and receives a response with a link")
     public void theUserAsksAQuestionAndReceivesAResponseWithALink() {
-
-        waitForClickablility(trustPage.here, 25);
-        trustPage.here.click();
-
+        waitForVisibility(trustPage.trustSearchBox, 20);
+        trustPage.trustSearchBox.sendKeys("What is trust wallet?");
+        trustPage.submitBtn.click();
     }
 
     @Then("the link provided should not be blank")
     public void thenTheLinkProvidedShouldNotBeBlank() {
-
-
+        waitForClickablility(trustPage.here, 25);
+//        Add trust wallet scenario after consulting with feature owners
+//        Will there always be a link?  and what should we check for when we open the link?
+//        if (trustPage.here != null) trustPage.here.click();
         assertNotNull("Link is null", trustPage.here);
         assertFalse("Link href is blank", trustPage.here.getAttribute("href").isEmpty());
-
         System.out.println("\n\n\n" + trustPage.here.getAttribute("href").toString() + "\n\n\n");
-
-
     }
 
     @When("the user clicks the thumbs-up icon")
@@ -85,7 +71,12 @@ public class TrustStepDef {
 
     @And("the thumbs-down icon should remain unchanged")
     public void theThumbsDownIconShouldRemainUnchanged() {
-
+        waitForVisibility(trustPage.redThumbDownIcon, 25);
+        WebElement regularThumbDownIcon = trustPage.thumbDownIcon;
+        WebElement redThumbDownIcon = trustPage.redThumbDownIcon;
+        String regularIconColor = regularThumbDownIcon.getCssValue("color");
+        String notRedIconColor = redThumbDownIcon.getCssValue("color");
+        assertEquals(regularIconColor, notRedIconColor);
     }
 
     @When("the user clicks the thumbs-down icon")
@@ -93,24 +84,33 @@ public class TrustStepDef {
         WebElement regularThumbDownIcon = trustPage.thumbDownIcon;
         regularThumbDownIcon.click();
         waitFor(15);
+    }
+
+    @Then("the thumbs-down icon should change color to red")
+    public void theThumbsDownIconShouldChangeColorToRed() {
+        waitForVisibility(trustPage.redThumbDownIcon, 25);
         WebElement redThumbDownIcon = trustPage.redThumbDownIcon;
+        WebElement regularThumbDownIcon = trustPage.thumbDownIcon;
         String regularIconColor = regularThumbDownIcon.getCssValue("color");
         String redIconColor = redThumbDownIcon.getCssValue("color");
         assertNotEquals(regularIconColor, redIconColor);
         System.out.println("***\n\n\n" + regularIconColor + "\n\n\n" + redIconColor + "\n\n\n***");
     }
 
-    @Then("the thumbs-down icon should change color to red")
-    public void theThumbsDownIconShouldChangeColorToRed() {
-
-    }
-
     @And("the thumbs-up icon should remain unchanged")
     public void theThumbsUpIconShouldRemainUnchanged() {
+        waitForVisibility(trustPage.greenThumbUpIcon, 25);
+        WebElement regularThumbUpIcon = trustPage.thumbUpIcon;
+        WebElement greenThumbUpIcon = trustPage.greenThumbUpIcon;
+        String regularIconColor = regularThumbUpIcon.getCssValue("color");
+        String notGreenIconColor = greenThumbUpIcon.getCssValue("color");
+        assertEquals(regularIconColor, notGreenIconColor);
     }
+
 
     @When("the user clicks the refresh button")
     public void theUserClicksTheRefreshButton() {
+        waitForClickablility(trustPage.refreshIcon, 25);
         trustPage.refreshIcon.click();
         waitFor(15);
     }
@@ -121,6 +121,7 @@ public class TrustStepDef {
 
     @Then("check for the presence of the default message")
     public void checkForThePresenceOfTheDefaultMessage() {
+        waitForVisibility(trustPage.defaultMsg2, 25);
         assertTrue("***\n\n\nDefault message is not present after refreshing the chat interface\n\n\n***", trustPage.defaultMsg2.isDisplayed());
     }
 
@@ -157,21 +158,6 @@ public class TrustStepDef {
         }
     }
 
-    @Given("the user is on the chat interface")
-    public void theUserIsOnTheChatInterface() {
-    }
-
-    @When("the user clicks the attachment button")
-    public void theUserClicksTheAttachmentButton() {
-        waitForVisibility(trustPage.attachFileIcon, 15);
-        trustPage.attachFileIcon.click();
-        waitFor(15);
-    }
-
-    @Then("a file attachment dialog should appear")
-    public void aFileAttachmentDialogShouldAppear() {
-    }
-
     @When("the user clicks the emoji button")
     public void theUserClicksTheEmojiButton() {
         waitForVisibility(trustPage.emojiBtn, 15);
@@ -181,66 +167,6 @@ public class TrustStepDef {
 
     @Then("an emoji selection dialog should appear")
     public void anEmojiSelectionDialogShouldAppear() {
-    }
-
-    String path;
-    String fileName;
-
-    @When("the user selects a .docx file to attach")
-    public void theUserSelectsAFileToAttach() throws AWTException {
-
-        // path = "/Users/adilyadanil/IdeaProjects/KodifQAOwn/attachments/What is wallet.docx";
-        path = System.getProperty("user.dir") + File.separator + "attachments" + File.separator + "Attachment.docx";
-
-        int i = path.lastIndexOf(File.separator);
-        int j = path.lastIndexOf(".");
-        fileName = path.substring(i + 1, j);
-        StringSelection str = new StringSelection(path);
-
-        WebElement fileInput = Driver.getDriver().findElement(By.cssSelector("input[type='file']"));
-        fileInput.sendKeys(path);
-//
-//        Robot robot = new Robot();
-//        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(str, null);
-//
-//        // cmd + tab is needed since it launches a java app and the browser looses focus
-//        robot.keyPress(KeyEvent.VK_META);
-//        robot.keyPress(KeyEvent.VK_TAB);
-//        robot.keyRelease(KeyEvent.VK_TAB);
-//        robot.keyRelease(KeyEvent.VK_META);
-//        robot.delay(500);
-//
-//        //open goto window
-//        robot.keyPress(KeyEvent.VK_META);
-//        robot.keyPress(KeyEvent.VK_SHIFT);
-//        robot.keyPress(KeyEvent.VK_G);
-//        robot.keyRelease(KeyEvent.VK_G);
-//        robot.keyRelease(KeyEvent.VK_SHIFT);
-//        robot.keyRelease(KeyEvent.VK_META);
-//        robot.delay(500);
-//
-//        //paste the clipboard value
-//        robot.keyPress(KeyEvent.VK_META);
-//        robot.keyPress(KeyEvent.VK_V);
-//        robot.keyRelease(KeyEvent.VK_META);
-//        robot.keyRelease(KeyEvent.VK_V);
-//        robot.delay(500);
-//
-//        //Press Enter key twice to close the Goto window and Upload window
-//        robot.keyPress(KeyEvent.VK_ENTER);
-//        robot.keyRelease(KeyEvent.VK_ENTER);
-//        robot.delay(500);
-//        robot.keyPress(KeyEvent.VK_ENTER);
-//        robot.keyRelease(KeyEvent.VK_ENTER);
-
-    }
-
-    @Then("file is successfully attached")
-    public void fileIsSuccessfullyAttached() {
-        WebElement attachedDoc = Driver.getDriver().findElement(By.xpath("//div[contains(text(),'" + fileName + "')]"));
-        assertTrue(attachedDoc.isDisplayed());
-
-
     }
 
     @When("the user ask to talk with agent and use wrong email")
