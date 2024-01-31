@@ -85,7 +85,7 @@ public class TrustPage {
     @FindBy(css = "input[type='file']")
     public WebElement fileInput;
 
-    @FindBy(xpath = "//div/p[contains(text(),'Sure! Please provide more details (e.g. transaction hash, relevant wallet addresses etc.) and I will have someone reach out to you. ')]")
+    @FindBy(xpath = "//div/p[contains(text(),'Please enter your email:')]")
     public WebElement agentTalkResponse;
 
     @FindBy(xpath = "//div/p[contains(text(),'The email')]")
