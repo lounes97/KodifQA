@@ -36,7 +36,7 @@ public class TrustStepDef {
 
     @When("the user asks a question and receives a response with a link")
     public void theUserAsksAQuestionAndReceivesAResponseWithALink() {
-        waitForVisibility(trustPage.trustSearchBox, 20);
+        waitForClickablility(trustPage.trustSearchBox, 20);
         trustPage.trustSearchBox.sendKeys("What is trust wallet?");
         trustPage.submitBtn.click();
     }
@@ -160,9 +160,9 @@ public class TrustStepDef {
 
     @When("the user clicks the emoji button")
     public void theUserClicksTheEmojiButton() {
-        waitForVisibility(trustPage.emojiBtn, 15);
+        waitForInvisibilityOf(trustPage.bouncingLouder, 20);
+        waitForClickablility(trustPage.emojiBtn, 15);
         trustPage.emojiBtn.click();
-        waitFor(15);
     }
 
     @Then("an emoji selection dialog should appear")
@@ -171,31 +171,41 @@ public class TrustStepDef {
 
     @When("the user ask to talk with agent and use wrong email")
     public void theUserAskToTalkWithAgentAndUseWrongEmail() {
+        // Have to ask for an agent twice before AI asks to enter email
+        waitForClickablility(trustPage.trustSearchBox, 30);
         trustPage.trustSearchBox.sendKeys("talk agent" + Keys.ENTER);
+        waitForClickablility(trustPage.trustSearchBox, 30);
+        trustPage.trustSearchBox.sendKeys("talk agent" + Keys.ENTER);
+        waitForClickablility(trustPage.trustSearchBox, 30);
         assertTrue(trustPage.agentTalkResponse.isDisplayed());
         trustPage.trustSearchBox.sendKeys("11.com@" + Keys.ENTER);
     }
 
     @Then("the chatbot will ask for correct email")
     public void theChatbotWillAskForCorrectEmail() {
+        waitForVisibility(trustPage.wrongEmailResponse, 30);
         assertTrue(trustPage.wrongEmailResponse.isDisplayed());
     }
 
     @When("the user ask to talk with agent and use correct email")
     public void theUserAskToTalkWithAgentAndUseCorrectEmail() {
+        // Have to ask for an agent twice before AI asks to enter email
+        waitForClickablility(trustPage.trustSearchBox, 30);
         trustPage.trustSearchBox.sendKeys("talk agent" + Keys.ENTER);
-        BrowserUtils.waitFor(10);
-        waitForInvisibilityOf(trustPage.bouncingLouder, 20);
+        waitForClickablility(trustPage.trustSearchBox, 30);
+        trustPage.trustSearchBox.sendKeys("talk agent" + Keys.ENTER);
+        waitForClickablility(trustPage.trustSearchBox, 30);
+        assertTrue(trustPage.agentTalkResponse.isDisplayed());
         trustPage.trustSearchBox.sendKeys("kodif@test1.com" + Keys.ENTER);
-        waitForInvisibilityOf(trustPage.bouncingLouder, 20);
+        waitForVisibility(trustPage.bouncingLouder, 20);
+        waitForInvisibilityOf(trustPage.bouncingLouder, 45);
     }
 
     @And("the chatbot will ask to select the issue and provide More, Other option buttons")
     public void theChatbotWillAskToSelectTheIssueAndProvideMoreOtherOptionButtons() {
-
-        BrowserUtils.waitFor(15);
         trustPage.moreBtn.click();
-        waitForInvisibilityOf(trustPage.bouncingLouder, 20);
+        waitForVisibility(trustPage.bouncingLouder, 20);
+        waitForInvisibilityOf(trustPage.bouncingLouder, 45);
     }
 
     JavascriptExecutor executor = (JavascriptExecutor) Driver.getDriver();
@@ -204,9 +214,8 @@ public class TrustStepDef {
     @And("user clicks Other option")
     public void userClicksOtherOption() {
         executor.executeScript("arguments[0].scrollIntoView(true);", trustPage.otherBtn);
-        BrowserUtils.waitForVisibility(trustPage.otherBtn, 15);
+        waitForClickablility(trustPage.otherBtn, 15);
         executor.executeScript("arguments[0].click();", trustPage.otherBtn);
-        BrowserUtils.waitForVisibility(trustPage.otherBtn, 25);
         waitForClickablility(trustPage.otherBtn, 25);
         trustPage.otherBtn.click();
 
@@ -222,28 +231,14 @@ public class TrustStepDef {
 
 // Click the element using JavaScript
         executor.executeScript("arguments[0].click();", trustPage.subCategoryResponse);
-        BrowserUtils.waitFor(30);
-        BrowserUtils.waitForVisibility(trustPage.bouncingLouder, 20);
-        BrowserUtils.waitForInvisibilityOf(trustPage.bouncingLouder, 45);
+        waitForVisibility(trustPage.bouncingLouder, 20);
+        waitForInvisibilityOf(trustPage.bouncingLouder, 45);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@placeholder='Tell us something...']")));
-        BrowserUtils.waitForClickablility(trustPage.trustSearchBox, 25);
-        BrowserUtils.waitForVisibility(trustPage.trustSearchBox, 20);
-        executor.executeScript("arguments[0].value = arguments[1];", trustPage.trustSearchBox, "This is a test of the ticketing system by Kodif for trustwallet. Please Ignore");
-        executor.executeScript("arguments[0].dispatchEvent(new Event('keydown', { 'key': 'Enter' }))", trustPage.trustSearchBox);
-        waitForInvisibilityOf(trustPage.bouncingLouder, 20);
-
-
-//        executor.executeScript("arguments[0].scrollIntoView(true);", trustPage.subCategoryResponse);
-//        BrowserUtils.waitForVisibility(trustPage.subCategoryResponse, 15);
-//        executor.executeScript("arguments[0].click();", trustPage.subCategoryResponse);
-//        waitForClickablility(trustPage.subCategoryResponse,25);
-//        trustPage.subCategoryResponse.click();
-//        BrowserUtils.waitFor(15);
-//        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("input[placeholder='Tell us something...']")));
-//        trustPage.trustSearchBox.sendKeys("This is a test of the ticketing system by Kodif for trustwallet. Please Ignore" + Keys.ENTER);
-//        TakesScreenshot screenshot = (TakesScreenshot) Driver.getDriver();
-//        File screenshotFile = screenshot.getScreenshotAs(OutputType.FILE);
-//        FileUtils.copyFile(screenshotFile, new File("/path/to/screenshot.png"));
+        waitForClickablility(trustPage.trustSearchBox, 25);
+        waitForVisibility(trustPage.trustSearchBox, 20);
+        trustPage.trustSearchBox.sendKeys("This is a test of the ticketing system by Kodif for trustwallet. Please Ignore" + Keys.ENTER);
+        waitForVisibility(trustPage.bouncingLouder, 20);
+        waitForInvisibilityOf(trustPage.bouncingLouder, 45);
     }
 
     @Then("user select yes or no and the conversation will end")
