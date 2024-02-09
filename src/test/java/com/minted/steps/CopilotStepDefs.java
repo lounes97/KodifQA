@@ -64,12 +64,36 @@ public class CopilotStepDefs {
 
     }
 
+
+    @When("user enters the Kodif Copilot username and password")
+    public void user_enters_the_kodif_copilot_username_and_password() {
+        if (url.contains("Zendesk")) {
+            BrowserUtils.waitForClickablility(zendeskPage.coPilotUserName,15);
+            zendeskPage.coPilotUserName.sendKeys(ConfigurationReader.getProperty("coPilotUserName"));
+            zendeskPage.coPilotPassword.sendKeys(ConfigurationReader.getProperty("coPilotPassword"));
+        }
+    }
+
+
+    @Then("user clicks on Kodif Copilot login button")
+    public void user_clicks_on_kodif_copilot_login_button() {
+        if (url.contains("Zendesk")) {
+            BrowserUtils.waitForClickablility(zendeskPage.coPilotLoginButton,15);
+            zendeskPage.coPilotLoginButton.click();
+            BrowserUtils.waitForVisibility(zendeskPage.coPilotFrame,15);
+        }
+
+    }
+
+
+
+
     @When("the user selects the maximize option the coPilot window should expand")
     public void theUserSelectsTheMaximizeOptionTheCoPilotWindowShouldExpand() {
-        frameWidth1 = salesforcePage.copilotFrame.getSize().getWidth();
+        frameWidth1 = salesforcePage.coPilotFrame.getSize().getWidth();
 
         salesforcePage.maximizeBtn.click();
-        frameWidth2 = salesforcePage.copilotFrame.getSize().getWidth();
+        frameWidth2 = salesforcePage.coPilotFrame.getSize().getWidth();
 
         assertTrue(frameWidth2 > frameWidth1);
 
@@ -79,7 +103,7 @@ public class CopilotStepDefs {
     public void theUserSelectsTheMinimizeOptionTheCoPilotWindowShouldMinimizeToTheTaskbar() {
 
         salesforcePage.minimizeBtn.click();
-        frameWidth1 = salesforcePage.copilotFrame.getSize().getWidth();
+        frameWidth1 = salesforcePage.coPilotFrame.getSize().getWidth();
         assertTrue(frameWidth2 > frameWidth1);
     }
 

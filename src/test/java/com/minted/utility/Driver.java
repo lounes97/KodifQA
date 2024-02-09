@@ -80,7 +80,7 @@ public class Driver {
 //                    driverPool.get().manage().window().maximize();
 //                    driverPool.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
                     ChromeOptions options = new ChromeOptions();
-                    options.addExtensions(new File("extensions/dist1.crx"));
+                    options.addExtensions(new File("extensions/Kodif Copilot 1.2.53.crx"));
                     driverPool.set(new ChromeDriver(options));
                     driverPool.get().manage().window().maximize();
                     driverPool.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));

@@ -8,6 +8,9 @@ Feature: User Authentication
     And user enters the password
     Then user clicks on login button
     And when the user clicks on the Kodif icon, the coPilot window pops up
+    When user enters the Kodif Copilot username and password
+    Then user clicks on Kodif Copilot login button
+
   @max&min @ui
   Scenario: Maximize and minimize coPilot Window
     When the user selects the maximize option the coPilot window should expand
