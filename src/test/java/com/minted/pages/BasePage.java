@@ -25,5 +25,15 @@ public abstract class BasePage {
     @FindBy(xpath = "//p[@data-test-id='kodif-intro-msg']")
     public WebElement ticketSwitchDefaultText;
 
+    @FindBy(xpath = "(//input[@placeholder='Email'])")
+    public WebElement coPilotUserName;
 
+    @FindBy(xpath = "(//input[@placeholder='Password'])")
+    public WebElement coPilotPassword;
+
+    @FindBy(xpath = "//button[contains(text(),'Continue')]")
+    public WebElement coPilotLoginButton;
+
+    @FindBy(xpath = "//div[@class='chakra-stack App css-11sckxr']" )
+    public WebElement coPilotFrame;
 }
