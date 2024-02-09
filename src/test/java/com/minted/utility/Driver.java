@@ -45,8 +45,6 @@ public class Driver {
                         URL url = new URL("http://"+ gridAddress + ":4444/wd/hub");
                         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
                         desiredCapabilities.setBrowserName("chrome");
-                        desiredCapabilities.setVersion("121.0.6167.86");
-//                        desiredCapabilities.setPlatform(org.openqa.selenium.Platform.WINDOWS);
                         driverPool.set(new RemoteWebDriver(url, desiredCapabilities));
                         //driverPool.set(new RemoteWebDriver(new URL("http://0.0.0.0:4444/wd/hub"),desiredCapabilities));
 
