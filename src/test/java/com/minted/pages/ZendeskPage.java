@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class ZendeskPage {
+public class ZendeskPage extends BasePage {
 
         public ZendeskPage() {
                 PageFactory.initElements(Driver.getDriver(), this);

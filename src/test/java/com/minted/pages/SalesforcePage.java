@@ -21,10 +21,6 @@ public class SalesforcePage extends BasePage {
     @FindBy(xpath = "//p[contains(text(),'KODIF’s AI Chat is your personal assistant')]" )
     public WebElement ReloadDefaultContent;
 
-
-    @FindBy(xpath = "//div[@class='chakra-stack App css-11sckxr']" )
-    public WebElement copilotFrame;
-
     @FindBy(xpath = "//button[@data-test-id='kodif-expand-btn']")
     public WebElement maximizeBtn;
     @FindBy(xpath = "//button[@data-test-id='kodif-minimize-btn']")
